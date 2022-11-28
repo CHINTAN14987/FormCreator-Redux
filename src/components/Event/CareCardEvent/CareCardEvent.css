@@ -1,0 +1,18 @@
+.groupEvent_Wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
+.event-wrapper > input {
+  background: #ffffff;
+  border: 1px solid #e9e2f4;
+  border-radius: 4px;
+  font-family: "SF Pro Text";
+  font-style: normal;
+  font-weight: 600;
+  padding: 3px;
+  font-size: 16px;
+  letter-spacing: 1px;
+  color: #2f0a6b;
+}

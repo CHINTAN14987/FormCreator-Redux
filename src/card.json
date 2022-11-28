@@ -1,0 +1,136 @@
+{
+  "cardData": {
+    "00t1v1": "Get In Touch",
+    "00t1v2": "I would like to book an appointment, please call me in the:",
+    "00t1v4": "Morning",
+    "00t1v5": "Afternoon",
+    "00t1v6": "Evening",
+    "00t1v7": "My contact information",
+    "00t1v8": "Mobile",
+    "00f1v1": "Send",
+    "00t1v9": "Enter Number"
+  },
+  "cardLayout": {
+    "body": [
+      {
+        "id": "000t1",
+        "tileComponent": [
+          {
+            "id": "EN01TileTitleSubtileVert1",
+            "isSearchable": false,
+            "subView": [
+              {
+                "title": {
+                  "text": "00t1v1"
+                },
+                "subTitle": {
+                  "text": "00t1v2"
+                }
+              }
+            ],
+            "order": 1,
+            "type": "CONTAINER",
+            "uiAction": ""
+          },
+          {
+            "id": "EN01OptionType4",
+            "isSearchable": false,
+            "subView": [
+              {
+                "title": {
+                  "text": ""
+                },
+                "options": [
+                  {
+                    "text": "appointmentTime",
+                    "label": "00t1v4"
+                  },
+                  {
+                    "text": "appointmentTime",
+                    "label": "00t1v5"
+                  },
+                  {
+                    "text": "appointmentTime",
+                    "label": "00t1v6"
+                  }
+                ]
+              }
+            ],
+            "order": 3,
+            "type": "CONTAINER",
+            "uiAction": ""
+          },
+          {
+            "id": "EN01TileTitleSubtileVert6",
+            "isSearchable": false,
+            "subView": [
+              {
+                "title": {
+                  "text": "00t1v7"
+                },
+                "body": [
+                  {
+                    "text": "00t1v8"
+                  },
+                  {
+                    "text": "$patientMobilePhone",
+                    "hint": "00t1v9",
+                    "keyboard": "phone"
+                  }
+                ]
+              }
+            ],
+            "order": 1,
+            "type": "CONTAINER",
+            "uiAction": ""
+          }
+        ],
+        "tileType": "WRAP",
+        "uiAction": ""
+      }
+    ],
+    "footer": {
+      "menu": [
+        {
+          "id": "EN01BottomButtonBack",
+          "isSearchable": false,
+          "subView": [
+            {
+              "title": {
+                "text": ""
+              }
+            }
+          ],
+          "order": 1,
+          "type": "BACK_BUTTON",
+          "uiAction": "${action2}"
+        },
+        {
+          "id": "EN01BottomButton1",
+          "isSearchable": false,
+          "subView": [
+            {
+              "title": {
+                "text": "00f1v1"
+              }
+            }
+          ],
+          "order": 2,
+          "type": "BUTTON",
+          "uiAction": "action1"
+        }
+      ],
+      "orientation": "HORIZONTAL"
+    }
+  },
+  "cardUIAction": {
+    "action1": {
+      "action": "ev-4-patient-ask-for-appointment"
+    },
+    "action2": {
+      "action": "ev-25-patient-in-touch-navigate-back"
+    }
+  },
+  "id": "00jc2",
+  "name": "Patient Score Card"
+}

@@ -1,0 +1,41 @@
+.checkboxContainer {
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  column-gap: 20px;
+}
+.checkboxField {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border: 1px solid #e9e2f4;
+  width: 15rem;
+  padding: 5px 20px;
+  color: #2f0a6b;
+  font-family: "SF Pro Text";
+  font-style: normal;
+  font-weight: 600;
+  font-size: 16px;
+  line-height: 17px;
+  letter-spacing: -0.006em;
+  overflow-wrap: anywhere;
+}
+.checkboxOptions {
+  font-family: inherit;
+  font-style: inherit;
+  font-weight: inherit;
+  font-size: inherit;
+  letter-spacing: inherit;
+  color: inherit;
+  margin-left: 10px;
+}
+input[type="radio"] {
+  margin-top: 0;
+}
+
+.checkboxField:nth-child(1) {
+  border-radius: 4px 4px 0 0;
+}
+.checkboxField:nth-child(3) {
+  border-radius: 0 0 4px 4px;
+}
