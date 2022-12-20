@@ -16,3 +16,8 @@
   letter-spacing: 1px;
   color: #2f0a6b;
 }
+
+.event-wrapper {
+  display: flex;
+  flex-direction: column;
+}

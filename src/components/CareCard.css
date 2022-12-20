@@ -6,13 +6,13 @@
   border: 1px solid #e9e2f4;
   padding: 20px;
   height: 60rem;
-  overflow-y: scroll;
+  /* overflow-y: scroll; */
 }
 
 .App {
   display: flex;
   column-gap: 1rem;
-  justify-content: center;
+  justify-content: space-evenly;
 }
 .invisible {
   visibility: hidden;
@@ -24,7 +24,23 @@
   display: flex;
   flex-direction: column;
   gap: 20px;
-  background-color: #e8e8e8;
+  position: relative;
+  background-color: #e4e4e4;
+}
+.bellIcon {
+  position: absolute;
+  right: 10%;
+  color: #653ee6 !important;
+  font-size: 1.8rem;
+}
+.userIcon {
+  position: absolute;
+  left: 10%;
+  background-color: #653ee6 !important;
+  width: 2rem;
+  height: 2rem;
+  border-radius: 50%;
+  border: none;
 }
 .mainContainer {
   margin-top: 5rem;
@@ -33,29 +49,35 @@
   background-color: #fff;
   border-radius: 8px;
   min-height: 50rem;
+  margin-top: 3rem;
+  margin-bottom: 3rem;
 }
 .Drop_InnerWrapper {
-  display: flex;
+  /* display: flex;
   flex-direction: column;
   row-gap: 20px;
-  align-items: center;
+  align-items: center; */
   height: 100%;
-  margin-top: 2rem;
   position: relative;
   padding-bottom: 5rem;
+  padding-top: 3rem;
 }
 .buttonCustom {
-  bottom: 9%;
+  bottom: 4%;
   position: absolute;
   left: 2%;
+  width: fit-content !important;
   transition: all 10s linear;
+  margin-bottom: 0 !important;
 }
 
-.previewCustomButtom {
-  bottom: 9%;
+.submitButton {
+  bottom: 4%;
   position: absolute;
   right: 2%;
+  width: fit-content !important;
   transition: all 10s linear;
+  margin-bottom: 0 !important;
 }
 .RightCom {
   border: 1px solid #e9e2f4;
@@ -129,7 +151,7 @@
 .rawDragtiles_inner {
   display: flex;
   flex-direction: column;
-  justify-content: center;
+  height: 100%;
   align-items: center;
   gap: 20px;
 }
@@ -139,7 +161,7 @@
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  margin-top: 2rem;
+  margin: 2rem;
 }
 .Json h3 {
   font-weight: 900;
@@ -155,7 +177,43 @@
   color: white;
   display: flex;
   justify-content: center;
+  margin-bottom: 2rem;
   align-items: center;
   padding: 10px;
   border: none;
+}
+.customcomp {
+  width: 90%;
+  margin: 1rem auto;
+}
+.customcomp:last-child {
+  margin-bottom: 3rem;
+}
+.previewButton {
+  padding: 10px;
+  border: none;
+  background-color: #2f0a6b;
+  color: #fff;
+  text-align: center;
+  font-size: 15px;
+  font-weight: 600;
+  width: 8rem;
+  margin: auto;
+  border-radius: 12px;
+  display: flex;
+  justify-content: center;
+  margin-top: 10px;
+}
+.JSONTextarea {
+  width: 100%;
+  min-height: 30rem;
+}
+.JSONWrapper {
+  width: 30rem;
+  max-width: 100%;
+  margin: 2rem auto;
+}
+.jsonText {
+  color: #fff;
+  font-weight: 800;
 }

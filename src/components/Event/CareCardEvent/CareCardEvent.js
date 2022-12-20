@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { JSONCarddata } from "../../../redux/JsonTransFormationSlice";
 import { action } from "../../../redux/ReducerSlice";
 
@@ -7,33 +7,52 @@ import "./CareCardEvent.css";
 const CareCardEvent = ({ item }) => {
   const dispatch = useDispatch();
   const [focus, setFocus] = useState(true);
-  const DragValue = useSelector((state) => state.UserReducer.taskList[0].tasks);
 
   const ChangeHandler = (e) => {
     setFocus(false);
-    dispatch(action.componentUpdateTileVal({ data: e, id: item.id }));
+    dispatch(
+      action.componentUpdateTileVal({
+        data: e,
+        key: item.key,
+      })
+    );
   };
 
   const tileBodyChangeHandler = (e) => {
     setFocus(false);
-    dispatch(action.componentupdatetitleTitleBody({ e, id: item.id }));
+    dispatch(
+      action.componentupdatetitleTitleBody({
+        e,
+        key: item.key,
+      })
+    );
   };
 
   const contactChangeHanlder = (e) => {
     setFocus(false);
-    dispatch(action.componentUpdatetileContact({ e, id: item.id }));
+    dispatch(
+      action.componentUpdatetileContact({
+        e,
+        key: item.key,
+      })
+    );
   };
 
-  if (item.key === "EN01TTA00RH") {
+  if (item.id === "EN01TTA00RH") {
     return (
       <div className="event-wrapper">
         <input
           className="eventInput"
           value={item.subView[0].title.text}
           onChange={(e) => {
-            ChangeHandler(e.target.value);
+            dispatch(
+              action.componentUpdateTileVal({
+                data: e.target.value,
+                key: item.key,
+              })
+            );
           }}
-          name={item.subView[0].title.textKey}
+          name={item?.subView[0]?.title?.textKey}
           readOnly={focus}
           onFocus={() => {
             setFocus(false);
@@ -68,12 +87,12 @@ const CareCardEvent = ({ item }) => {
     );
   }
 
-  if (item.key === "EN01T00N" || item.key === "EN01BottomButton1") {
+  if (item.id === "EN01T00N" || item.id === "EN01BottomButton1") {
     return (
       <div className="event-wrapper">
         <input
           className="eventInput"
-          value={item.subView[0].title.text}
+          value={item?.subView[0]?.title?.text}
           onChange={(e) => {
             ChangeHandler(e.target.value);
           }}
@@ -81,18 +100,22 @@ const CareCardEvent = ({ item }) => {
           onFocus={() => {
             setFocus(false);
           }}
-          onBlur={() => {
+          onBlur={(e) => {
             setFocus(true);
             dispatch(JSONCarddata({ data: item.subView[0].title }));
-            if (item.key === "EN01BottomButton1") {
-              dispatch(JSONCarddata({ data: item.subView[0].title }));
+            if (item.id === "EN01BottomButton1") {
+              dispatch(
+                JSONCarddata({
+                  data: item.subView[0].title,
+                })
+              );
             }
           }}
         />
       </div>
     );
   }
-  if (item.key === "EN01T01N") {
+  if (item.id === "EN01T01N") {
     return (
       <div className="event-wrapper">
         {Object.keys(item?.subView[0]).map((draggedItemEdited, index) => {
@@ -100,7 +123,7 @@ const CareCardEvent = ({ item }) => {
             <input
               className="eventInput"
               key={index}
-              value={item.subView[0][draggedItemEdited].text}
+              value={item?.subView[0][draggedItemEdited]?.text}
               name={draggedItemEdited}
               onChange={(e) => {
                 tileBodyChangeHandler(e);
@@ -112,7 +135,7 @@ const CareCardEvent = ({ item }) => {
               onBlur={() => {
                 setFocus(true);
                 dispatch(
-                  JSONCarddata({ data: item.subView[0][draggedItemEdited] })
+                  JSONCarddata({ data: item?.subView[0][draggedItemEdited] })
                 );
               }}
             />
@@ -122,10 +145,10 @@ const CareCardEvent = ({ item }) => {
     );
   }
 
-  if (item.key === "EN01OptionType4") {
+  if (item.id === "EN01OptionType4") {
     return (
       <div className="groupEvent_Wrapper event-wrapper">
-        {item.subView[0].options.map((checkboxItem, index) => {
+        {item?.subView[0].options.map((checkboxItem, index) => {
           return (
             <input
               className="eventInput"
@@ -133,7 +156,12 @@ const CareCardEvent = ({ item }) => {
               value={checkboxItem.text}
               name={checkboxItem.textKey}
               onChange={(e) => {
-                dispatch(action.checkBoxComponentValUpdate({ e, id: item.id }));
+                dispatch(
+                  action.checkBoxComponentValUpdate({
+                    e,
+                    key: item.key,
+                  })
+                );
               }}
               readOnly={focus}
               onFocus={() => {

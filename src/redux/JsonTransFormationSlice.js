@@ -1,4 +1,4 @@
-import { createSlice, current } from "@reduxjs/toolkit";
+import { createSlice } from "@reduxjs/toolkit";
 import cardData from "../card.json";
 
 const initialState = { CareCardData: cardData };
@@ -9,6 +9,7 @@ const JsonTransFormationSlice = createSlice({
   reducers: {
     JSONValUpdate: (state, action) => {
       const { finalFilteredData, finalFilteredButton } = action.payload;
+
       return {
         ...state,
         CareCardData: {
@@ -42,7 +43,19 @@ const JsonTransFormationSlice = createSlice({
         },
       };
     },
+    JSONCardKeys: (state, action) => {
+      Object.keys(state.CareCardData.cardData).forEach((i) => {
+        if (JSON.stringify(action.payload.data).includes(i)) {
+          delete state.CareCardData.cardData[i];
+          // delete [i];
+        }
+
+        // return state.CareCardData.cardData[i];
+      });
+      return state;
+    },
   },
 });
-export const { JSONValUpdate, JSONCarddata } = JsonTransFormationSlice.actions;
+export const { JSONValUpdate, JSONCarddata, JSONCardKeys } =
+  JsonTransFormationSlice.actions;
 export default JsonTransFormationSlice.reducer;

@@ -1,14 +1,14 @@
 import React from "react";
 import "../Label/Label.css";
 import { EnterOutlined } from "@ant-design/icons";
-import { useSelector } from "react-redux";
 const Label = ({ draggedItem }) => {
-  const value = useSelector(
-    (state) => state.JsonTransFormationReducer.CareCardData.cardData
-  );
-  if (draggedItem.key === "EN01T00N") {
+  if (draggedItem.id === "EN01T00N") {
     return (
-      <div className="labelContainer">
+      <div
+        className={` labelContainer ${
+          draggedItem.isTitledraggable ? "customTileheading" : ""
+        } ${draggedItem.isDraggable === true ? "customTileHeadingMain" : ""} `}
+      >
         {draggedItem.subView.map((item, index) => {
           return <span key={index}>{item.title.text}</span>;
         })}
@@ -16,21 +16,27 @@ const Label = ({ draggedItem }) => {
     );
   }
 
-  if (draggedItem.key === "EN01T01N") {
+  if (draggedItem.id === "EN01T01N") {
     return (
-      <div className="labelWrapper">
-        <div className="labelContainer  bodyTitleTile">
-          {Object.keys(draggedItem?.subView[0]).map((item, index) => {
-            return <span key={index}>{draggedItem.subView[0][item].text}</span>;
-          })}
-        </div>
+      <div
+        className={`labelContainer bodyTitleTile ${
+          draggedItem.isDraggable === true ? "customTileBodyWrapper" : ""
+        } `}
+      >
+        {Object.keys(draggedItem?.subView[0]).map((item, index) => {
+          return <span key={index}>{draggedItem.subView[0][item].text}</span>;
+        })}
       </div>
     );
   }
 
-  if (draggedItem.key === "EN01TTA00RH") {
+  if (draggedItem.id === "EN01TTA00RH") {
     return (
-      <div className="labelContainer  bodyTitleTile">
+      <div
+        className={`labelContainer bodyTitleTile ${
+          draggedItem.isDraggable === true ? "customTileBodyContactWrapper" : ""
+        } `}
+      >
         <span>{draggedItem.subView[0].title.text}</span>
         <div className="mobileWrapper">
           {draggedItem.subView[0].body.map((item, index) => {
@@ -40,16 +46,24 @@ const Label = ({ draggedItem }) => {
       </div>
     );
   }
-  if (draggedItem.key === "EN01BottomButtonBack") {
+  if (draggedItem.id === "EN01BottomButtonBack") {
     return (
-      <button className="buttonContainer">
+      <button
+        className={`buttonContainer  ${
+          draggedItem.isDraggable === true ? "customBackButtonField" : ""
+        }`}
+      >
         <EnterOutlined className="buttonIcon" />
       </button>
     );
   }
-  if (draggedItem.key === "EN01BottomButton1") {
+  if (draggedItem.id === "EN01BottomButton1") {
     return (
-      <button className="buttonContainer submitbutton">
+      <button
+        className={`buttonContainer submitbutton ${
+          draggedItem?.isDraggableSubmitButton ? "customButtonField" : ""
+        }`}
+      >
         {draggedItem.subView[0].title.text}
       </button>
     );

@@ -1,15 +1,5 @@
 {
-  "cardData": {
-    "00t1v1": "Get In Touch",
-    "00t1v2": "I would like to book an appointment, please call me in the:",
-    "00t1v4": "Morning",
-    "00t1v5": "Afternoon",
-    "00t1v6": "Evening",
-    "00t1v7": "My contact information",
-    "00t1v8": "Mobile",
-    "00f1v1": "Send",
-    "00t1v9": "Enter Number"
-  },
+  "cardData": {},
   "cardLayout": {
     "body": [
       {

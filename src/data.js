@@ -10,8 +10,8 @@ const data = {
       groupName: "Drop",
       tasks: [
         {
-          id: uuid(),
-          key: "EN01T00N",
+          key: uuid(),
+          id: "EN01T00N",
           isSearchable: false,
           subView: [{ title: { text: "title", textKey: "00t1v1" } }],
           order: 1,
@@ -19,8 +19,8 @@ const data = {
           uiAction: "",
         },
         {
-          id: uuid(),
-          key: "EN01T01N",
+          key: uuid(),
+          id: "EN01T01N",
           isSearchable: false,
           subView: [
             {
@@ -39,8 +39,8 @@ const data = {
           uiAction: "",
         },
         {
-          key: "EN01OptionType4",
-          id: uuid(),
+          id: "EN01OptionType4",
+          key: uuid(),
           isSearchable: false,
           subView: [
             {
@@ -68,8 +68,8 @@ const data = {
           uiAction: "",
         },
         {
-          id: uuid(),
-          key: "EN01TTA00RH",
+          key: uuid(),
+          id: "EN01TTA00RH",
           isSearchable: false,
           subView: [
             {
@@ -95,8 +95,8 @@ const data = {
           uiAction: "",
         },
         {
-          key: "EN01BottomButtonBack",
-          id: uuid(),
+          id: "EN01BottomButtonBack",
+          key: uuid(),
           isSearchable: false,
           subView: [
             {
@@ -110,13 +110,13 @@ const data = {
           uiAction: "${action2}",
         },
         {
-          key: "EN01BottomButton1",
-          id: uuid(),
+          id: "EN01BottomButton1",
+          key: uuid(),
           isSearchable: false,
           subView: [
             {
               title: {
-                text: "Preview",
+                text: "Title",
                 textKey: "00f1v1",
               },
             },
@@ -128,5 +128,6 @@ const data = {
       ],
     },
   ],
+  cardClickItem: "",
 };
 export default data;

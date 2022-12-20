@@ -1,9 +1,3 @@
-.checkboxContainer {
-  display: flex;
-  align-items: center;
-  flex-direction: column;
-  column-gap: 20px;
-}
 .checkboxField {
   display: flex;
   align-items: center;
@@ -38,4 +32,22 @@ input[type="radio"] {
 }
 .checkboxField:nth-child(3) {
   border-radius: 0 0 4px 4px;
+}
+
+.customCheckboxField {
+  border-radius: 12px !important;
+  border: 1px solid #e4e4e4;
+  color: #212121;
+  border-radius: 12px;
+  margin-bottom: 1rem;
+  padding: 0 !important;
+  min-height: 3rem;
+  width: 100%;
+}
+
+.customCheckboxField > input {
+  display: none;
+}
+.customCheckboxField > span {
+  padding-left: 10px;
 }

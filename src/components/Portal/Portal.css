@@ -1,0 +1,45 @@
+.portalContainer {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.75);
+  position: fixed;
+}
+.cancelButtonPortal {
+  position: absolute;
+  right: 2%;
+  top: 2%;
+}
+
+.jsonText {
+  height: 80%;
+  overflow-y: scroll;
+
+  width: 50rem;
+  max-width: 100%;
+  margin: 3rem auto;
+
+  display: flex;
+  justify-content: center;
+}
+/* width */
+.jsonText::-webkit-scrollbar {
+  width: 5px;
+}
+
+/* Track */
+.jsonText::-webkit-scrollbar-track {
+  background: #f1f1f1;
+}
+
+/* Handle */
+.jsonText::-webkit-scrollbar-thumb {
+  background: #888;
+}
+
+/* Handle on hover */
+.jsonText::-webkit-scrollbar-thumb:hover {
+  background: black;
+}

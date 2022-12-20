@@ -8,9 +8,9 @@ const reducerSlice = createSlice({
   initialState,
   reducers: {
     dragRawTile: (state, action) => {
-      const { e, item, length, buttonKey } = action.payload;
+      const { e, item, length, Key } = action.payload;
       const dt = e.dataTransfer;
-      if (length >= 2 && item.key === buttonKey) {
+      if (length >= 2 && item.id === Key) {
         dt.setData("text/plain", JSON.stringify());
         return state;
       } else {
@@ -20,6 +20,7 @@ const reducerSlice = createSlice({
     },
     customComponent: (state, action) => {
       const { e, length } = action.payload;
+
       const dt = e.dataTransfer;
       const text = dt.getData("text/plain");
       const data = JSON.parse(text);
@@ -30,10 +31,10 @@ const reducerSlice = createSlice({
         !data.subView[0].hasOwnProperty("options") &&
         !data.subView[0].hasOwnProperty("body")
       ) {
-        if (data.key === "EN01BottomButtonBack") {
+        if (data.id === "EN01BottomButtonBack") {
           const newData = {
             ...data,
-            id: uuid(),
+            key: uuid(),
             isDraggableButton: true,
             subView: [
               {
@@ -47,11 +48,11 @@ const reducerSlice = createSlice({
           };
 
           state.taskList[0].tasks.push(newData);
-        } else if (data.key === "EN01BottomButton1") {
+        } else if (data.id === "EN01BottomButton1") {
           const newData = {
             ...data,
-            id: uuid(),
-            isDraggablePreviewButton: true,
+            key: uuid(),
+            isDraggableSubmitButton: true,
             subView: [
               {
                 ...data.subView[0],
@@ -67,7 +68,7 @@ const reducerSlice = createSlice({
         } else {
           const newData = {
             ...data,
-            id: uuid(),
+            key: uuid(),
             subView: [
               {
                 ...data.subView[0],
@@ -83,14 +84,14 @@ const reducerSlice = createSlice({
                 },
               },
             ],
+            isDraggable: true,
           };
-
           state.taskList[0].tasks.push(newData);
         }
       } else if (data.subView[0].hasOwnProperty("subTitle")) {
         const newData = {
           ...data,
-          id: uuid(),
+          key: uuid(),
           subView: [
             {
               ...data.subView[0],
@@ -116,13 +117,14 @@ const reducerSlice = createSlice({
               },
             },
           ],
+          isDraggable: true,
         };
 
         state.taskList[0].tasks.push(newData);
       } else if (data.subView[0].hasOwnProperty("options")) {
         const newData = {
           ...data,
-          id: uuid(),
+          key: uuid(),
           subView: [
             {
               ...data.subView[0],
@@ -137,13 +139,14 @@ const reducerSlice = createSlice({
               }),
             },
           ],
+          isDraggable: true,
         };
 
         state.taskList[0].tasks.push(newData);
       } else {
         const newData = {
           ...data,
-          id: uuid(),
+          key: uuid(),
           subView: [
             {
               ...data.subView[0],
@@ -168,6 +171,7 @@ const reducerSlice = createSlice({
               }),
             },
           ],
+          isDraggable: true,
         };
 
         state.taskList[0].tasks.push(newData);
@@ -192,7 +196,7 @@ const reducerSlice = createSlice({
           {
             ...state.taskList[0],
             tasks: state.taskList[0].tasks.filter(
-              (item) => item.id !== data.id
+              (item) => item.key !== data.key
             ),
           },
           state.taskList[1],
@@ -201,7 +205,7 @@ const reducerSlice = createSlice({
     },
     componentUpdateTileVal: (state, action) => {
       const updatedData = state.taskList[0].tasks.map((item) => {
-        if (item.id === action.payload.id) {
+        if (item.key === action.payload.key) {
           return {
             ...item,
             subView: [
@@ -231,7 +235,7 @@ const reducerSlice = createSlice({
     componentupdatetitleTitleBody: (state, action) => {
       const { e } = action.payload;
       const updatedData = state.taskList[0].tasks.map((item) => {
-        if (item.id === action.payload.id) {
+        if (item.key === action.payload.key) {
           return {
             ...item,
             subView: [
@@ -243,6 +247,7 @@ const reducerSlice = createSlice({
                 },
               },
             ],
+            tilePosition: action.payload.tilePosition,
           };
         } else {
           return item;
@@ -262,10 +267,9 @@ const reducerSlice = createSlice({
       };
     },
     checkBoxComponentValUpdate: (state, action) => {
-      const { e, id } = action.payload;
-
+      const { e, key } = action.payload;
       const updatedData = state.taskList[0].tasks.map((item) => {
-        if (item.id === id) {
+        if (item.key === key) {
           const newdata = item.subView[0].options.map((newI) => {
             if (newI.textKey === e.target.name) {
               return { ...newI, text: e.target.value };
@@ -286,7 +290,6 @@ const reducerSlice = createSlice({
           return item;
         }
       });
-
       return {
         ...state,
         taskList: [
@@ -300,10 +303,10 @@ const reducerSlice = createSlice({
       };
     },
     componentUpdatetileContact: (state, action) => {
-      const { e, id } = action.payload;
+      const { e, key } = action.payload;
 
       const updatedData = state.taskList[0].tasks.map((item) => {
-        if (item.id === id) {
+        if (item.key === key) {
           const bodyData = item.subView[0].body.map((newItem) => {
             if (newItem.textKey === e.target.name) {
               return { ...newItem, text: e.target.value };
@@ -341,14 +344,14 @@ const reducerSlice = createSlice({
       const { e, item } = action.payload;
 
       const findItemIndex = state.taskList[0].tasks.findIndex((dragItem) => {
-        return dragItem.id === item.id;
+        return dragItem.key === item.key;
       });
 
       const dt = e.dataTransfer;
       const text = dt.getData("text/plain");
       const data = JSON.parse(text);
       const sourceItemIndex = state.taskList[0].tasks.findIndex((item) => {
-        return item.id === data.id;
+        return item.key === data.key;
       });
 
       state.taskList[0].tasks.splice(sourceItemIndex, 1);
@@ -365,6 +368,48 @@ const reducerSlice = createSlice({
             ...state.taskList[0],
 
             tasks: newDestinationGroupTasks,
+          },
+          state.taskList[1],
+        ],
+      };
+    },
+    cardClickValue: (state, action) => {
+      state.cardClickItem = action.payload.item;
+      return state;
+    },
+    checkBoxComponentlUpdate: (state, action) => {
+      const { e, key } = action.payload;
+
+      const updatedData = state.taskList[0].tasks.map((item) => {
+        if (item.key === key) {
+          const newdata = item.subView[0].options.map((newI) => {
+            if (newI.textKey === e.target.name) {
+              return { ...newI, text: e.target.value };
+            }
+            return newI;
+          });
+
+          return {
+            ...item,
+            subView: [
+              {
+                ...item.subView[0],
+                options: newdata,
+              },
+            ],
+          };
+        } else {
+          return item;
+        }
+      });
+
+      return {
+        ...state,
+        taskList: [
+          {
+            ...state.taskList[0],
+
+            tasks: updatedData,
           },
           state.taskList[1],
         ],

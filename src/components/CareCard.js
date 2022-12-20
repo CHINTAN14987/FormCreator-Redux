@@ -5,57 +5,60 @@ import { action } from "../redux/ReducerSlice";
 import Tile from "./Tile/Tile";
 import Properties from "./properties/Properties";
 import Event from "./Event/Event";
-import { JSONValUpdate } from "../redux/JsonTransFormationSlice";
-import CardPreview from "../CardPreview/CardPreview";
+import { JSONValUpdate, JSONCardKeys } from "../redux/JsonTransFormationSlice";
+import { BellOutlined } from "@ant-design/icons";
+import {
+  filteredDataHelperFunc,
+  filteredDataHelperFunc1,
+  filteredDataHelperFunc2,
+} from "./helperfunctions";
+import Portal from "./Portal/Portal";
 
 function CareCard() {
   const formvalue = useSelector((state) => state.UserReducer.taskList[1].tasks);
   const DragValue = useSelector((state) => state.UserReducer.taskList[0].tasks);
   const [isDragging, setIsDragging] = useState(false);
-  const JSONData = useSelector((state) => state.JsonTransFormationReducer);
   const [itemDisplay, setItemDisplay] = useState(false);
   const [dragRow, setDragRow] = useState(false);
   const disptach = useDispatch();
   const [EventsProperties, setEventProperties] = useState(false);
   const [dragItem, setDragItem] = useState({});
-  const [JSOnvalue, setJSonValue] = useState(false);
-  const [cardPreview, setCardPreview] = useState(false);
+  const [openPortal, setOpenPortal] = useState(false);
+  const [dragBackCustomTile, setDragBackCustomTile] = useState({});
 
-  const finalFilteredData = DragValue.filter(
-    (item) =>
-      item.key !== "EN01BottomButtonBack" && item.key !== "EN01BottomButton1"
-  );
-  const finalFilteredButton = DragValue.filter(
-    (item) =>
-      item.key === "EN01BottomButtonBack" || item.key === "EN01BottomButton1"
-  );
   const dragStartHandler = (e, item) => {
     setItemDisplay(true);
     setIsDragging(false);
     setDragRow(false);
-    const filteredBackButton = DragValue.filter(
-      (item) => item.key === "EN01BottomButtonBack"
-    );
 
-    const filteredSubmitButton = DragValue.filter(
-      (item) => item.key === "EN01BottomButton1"
-    );
-    if (item.key === "EN01BottomButtonBack") {
+    if (item.id === "EN01BottomButtonBack") {
       disptach(
         action.dragRawTile({
           e,
           item,
-          length: filteredBackButton.length + 1,
-          buttonKey: "EN01BottomButtonBack",
+          length:
+            filteredDataHelperFunc(DragValue, "EN01BottomButtonBack").length +
+            1,
+          Key: "EN01BottomButtonBack",
         })
       );
-    } else if (item.key === "EN01BottomButton1") {
+    } else if (item.id === "EN01BottomButton1") {
       disptach(
         action.dragRawTile({
           e,
           item,
-          length: filteredSubmitButton.length + 1,
-          buttonKey: "EN01BottomButton1",
+          length:
+            filteredDataHelperFunc(DragValue, "EN01BottomButton1").length + 1,
+          Key: "EN01BottomButton1",
+        })
+      );
+    } else if (item.id === "EN01T00N") {
+      disptach(
+        action.dragRawTile({
+          e,
+          item,
+          length: filteredDataHelperFunc(DragValue, "EN01T00N").length + 1,
+          Key: "EN01T00N",
         })
       );
     } else {
@@ -67,18 +70,18 @@ function CareCard() {
       );
     }
     setDragItem(item);
+    disptach(action.cardClickValue({ item: null }));
   };
 
   const dropHandler = (e) => {
-    const filter = DragValue.filter((item) => item.key === dragItem.key);
-
+    const filter = DragValue.filter((item) => item.id === dragItem.id);
     e.preventDefault();
-
     if (itemDisplay) {
       setIsDragging(true);
       disptach(action.customComponent({ e, length: filter.length }));
     }
     setDragRow(true);
+    disptach(action.cardClickValue({ item: null }));
   };
 
   const dragOverHandler = (e) => {
@@ -88,7 +91,7 @@ function CareCard() {
 
   const dragHandler = (e, item) => {
     disptach(action.dragCustomComp({ e, item }));
-
+    setDragBackCustomTile(item);
     // setTimeout(() => (e.target.className += " invisible"), 0);
     setItemDisplay(false);
     setIsDragging(false);
@@ -96,16 +99,37 @@ function CareCard() {
 
   const DropBackHandler = (e) => {
     disptach(action.deleteCustomComp({ e }));
+    disptach(action.cardClickValue({ item: null }));
     setDragRow(false);
+    disptach(JSONCardKeys({ data: dragBackCustomTile }));
     // setTimeout(() => (e.target.className += " visible"), 0);
   };
   const RowDraghandler = (e, item) => {
     if (dragRow) {
       disptach(action.dragDropCustomComponent({ e, item }));
+      // setCardItemClicked(true);
     }
   };
-  const previewClickHanlder = (key) => {
-    setCardPreview(key === "EN01BottomButton1" ? true : false);
+  // const previewClickHanlder = () => {
+  //   setCardPreview(!cardPreview);
+  // };
+
+  const careCardJSONUpdateHandler = () => {
+    setOpenPortal(true);
+    disptach(
+      JSONValUpdate({
+        finalFilteredData: filteredDataHelperFunc1(
+          DragValue,
+          "EN01BottomButtonBack",
+          "EN01BottomButton1"
+        ),
+        finalFilteredButton: filteredDataHelperFunc2(
+          DragValue,
+          "EN01BottomButtonBack",
+          "EN01BottomButton1"
+        ),
+      })
+    );
   };
   return (
     <div className="mainContainer">
@@ -117,16 +141,14 @@ function CareCard() {
             onDrop={(e) => DropBackHandler(e)}
             onDragOver={(e) => dragOverHandler(e)}
           >
-            {formvalue.map((item, index) => {
+            {formvalue.map((item) => {
               return (
                 <div
-                  key={index}
-                  id={item.subtype}
+                  key={item.key}
                   draggable="true"
                   onDragStart={(e) => {
                     dragStartHandler(e, item);
                   }}
-                  // className={`${dragPos ? "dragstart" : ""}`}
                 >
                   <Tile item={item} />
                 </div>
@@ -135,53 +157,42 @@ function CareCard() {
           </div>
         </div>
         <div className="drop_wrapper">
+          <BellOutlined className="bellIcon" />
+          <button className="userIcon"></button>
           <div className="drop_cardContainer">
-            <h3 className="heading">Care.Card</h3>
-            {cardPreview ? (
-              <CardPreview
-                DragCard={() => {
-                  setCardPreview(false);
-                }}
-              />
-            ) : (
-              <div
-                className="Drop_InnerWrapper"
-                onDrop={(e) => {
-                  dropHandler(e);
-                }}
-                onDragOver={(e) => dragOverHandler(e)}
-              >
-                {DragValue.map((item) => {
-                  return (
-                    <div
-                      className={`customcomp ${
-                        item?.isDraggableButton ? "buttonCustom" : ""
-                      } ${
-                        item?.isDraggablePreviewButton
-                          ? "previewCustomButtom"
-                          : ""
-                      }`}
-                      draggable="true"
-                      onDragStart={(e) => {
-                        dragHandler(e, item);
-                      }}
-                      key={item.id}
-                      style={{ minWidth: "10rem" }}
-                      onDragOver={(e) => dragOverHandler(e)}
-                      onDrop={(e) => {
-                        RowDraghandler(e, item);
-                      }}
-                      onClick={() => {
-                        item?.subView[0]?.title?.text.toUpperCase() ===
-                          "PREVIEW" && previewClickHanlder(item.key);
-                      }}
-                    >
-                      <Tile item={item} />
-                    </div>
-                  );
-                })}
-              </div>
-            )}
+            <div
+              className="Drop_InnerWrapper"
+              onDrop={(e) => {
+                dropHandler(e);
+              }}
+              onDragOver={(e) => dragOverHandler(e)}
+            >
+              {DragValue.map((item) => {
+                return (
+                  <div
+                    className={`customcomp ${
+                      item?.isDraggableButton ? "buttonCustom" : ""
+                    } ${item?.isDraggableSubmitButton ? "submitButton" : ""}`}
+                    draggable="true"
+                    onDragStart={(e) => {
+                      dragHandler(e, item);
+                    }}
+                    key={item.key}
+                    onDragOver={(e) => dragOverHandler(e)}
+                    onDrop={(e) => {
+                      RowDraghandler(e, item);
+                    }}
+                    onClick={() => {
+                      // CardItemClickHanlder(item);
+
+                      disptach(action.cardClickValue({ item }));
+                    }}
+                  >
+                    <Tile item={item} />
+                  </div>
+                );
+              })}
+            </div>
           </div>
         </div>
         <div className="RightCom">
@@ -203,7 +214,6 @@ function CareCard() {
               Events
             </div>
           </div>
-
           <div className="eventhandle_Wrapper">
             {DragValue.length ? (
               <React.Fragment>
@@ -224,19 +234,17 @@ function CareCard() {
       <div className="Json">
         <button
           className="jsonDisplayButton"
-          onClick={() => {
-            disptach(
-              JSONValUpdate({
-                finalFilteredData: finalFilteredData,
-                finalFilteredButton: finalFilteredButton,
-              })
-            );
-            setJSonValue(!JSOnvalue);
-          }}
+          onClick={careCardJSONUpdateHandler}
         >
           Show JSON Data
         </button>
-        {JSOnvalue && <pre>{JSON.stringify(JSONData, undefined, 2)}</pre>}
+        {openPortal && (
+          <Portal
+            closePortal={() => {
+              setOpenPortal(false);
+            }}
+          />
+        )}
       </div>
     </div>
   );

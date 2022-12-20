@@ -4,7 +4,7 @@ import CheckBox from "./CheckBox/CheckBox";
 import Label from "./Label/Label";
 
 const Tile = ({ item }) => {
-  switch (item.key) {
+  switch (item.id) {
     case "EN01T00N":
     case "EN01T01N":
     case "EN01TTA00RH":
