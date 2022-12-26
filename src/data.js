@@ -107,7 +107,7 @@ const data = {
           ],
           order: 1,
           type: "BACK_BUTTON",
-          uiAction: "${action2}",
+          uiAction: "action2",
         },
         {
           id: "EN01BottomButton1",
