@@ -133,6 +133,7 @@ function CareCard() {
   };
   return (
     <div className="mainContainer">
+{isDragging && <></>}
       <div className="App">
         <div className="rawDragTiles">
           <h3 className="heading">Tiles</h3>
